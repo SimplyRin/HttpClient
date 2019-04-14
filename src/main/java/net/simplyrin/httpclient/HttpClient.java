@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -39,22 +40,29 @@ public class HttpClient {
 	@Setter
 	private URL url;
 	@Setter
-	private String post;
+	private String userAgent = "Mozilla/5.0 (HttpClient by SimplyRin)";
+	@Setter
+	private String data;
 	@Setter
 	private List<String> headers = new ArrayList<>();
 	@Setter
 	private Proxy proxy;
 
-	public HttpClient(String _url) throws Exception {
+	public HttpClient(String _url) {
 		try {
 			this.url = new URL(_url);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void addHeader(String key, String value) {
 		this.headers.add(key + ":" + value);
+	}
+
+	@Deprecated
+	public void setPost(String data) {
+		this.data = data;
 	}
 
 	@Override
@@ -96,8 +104,8 @@ public class HttpClient {
 			// e.printStackTrace();
 			return null;
 		}
-		connection.addRequestProperty("User-Agent", "Mozilla/5.0 (HttpClient by SimplyRin)");
-		connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+		connection.addRequestProperty("User-Agent", this.userAgent);
+		// connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
 		if (this.headers != null) {
 			for (String header : this.headers) {
 				connection.setRequestProperty(header.split(":")[0], header.split(":")[1]);
@@ -105,11 +113,11 @@ public class HttpClient {
 		}
 		connection.setConnectTimeout(10000);
 		connection.setReadTimeout(10000);
-		if (this.post != null) {
+		if (this.data != null) {
 			connection.setDoOutput(true);
 			try {
 				OutputStreamWriter outputStreamWriter = new OutputStreamWriter(connection.getOutputStream());
-				outputStreamWriter.write(post);
+				outputStreamWriter.write(data);
 				outputStreamWriter.close();
 				connection.connect();
 			} catch (Exception e) {
