@@ -64,6 +64,10 @@ public class HttpClient {
 	public void setPost(String data) {
 		this.data = data;
 	}
+	
+	public String getResult() {
+		return this.toString();
+	}
 
 	@Override
 	public String toString() {
