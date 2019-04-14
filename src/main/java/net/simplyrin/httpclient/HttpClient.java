@@ -48,6 +48,10 @@ public class HttpClient {
 	public HttpClient(String _url) throws Exception {
 		this.url = new URL(_url);
 	}
+	
+	public void addHeader(String key, String value) {
+		this.headers.add(key + ":" + value);
+	}
 
 	@Override
 	public String toString() {
