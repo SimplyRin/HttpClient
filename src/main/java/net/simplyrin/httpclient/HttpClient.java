@@ -64,7 +64,7 @@ public class HttpClient {
 	public void setPost(String data) {
 		this.data = data;
 	}
-	
+
 	public String getResult() {
 		return this.toString();
 	}
@@ -112,7 +112,14 @@ public class HttpClient {
 		// connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
 		if (this.headers != null) {
 			for (String header : this.headers) {
-				connection.setRequestProperty(header.split(":")[0], header.split(":")[1]);
+				String key = "";
+				String value = "";
+				try {
+					key = header.split(":")[0];
+					value = header.split(":")[1];
+				} catch (Exception e) {
+				}
+				connection.setRequestProperty(key, value);
 			}
 		}
 		connection.setConnectTimeout(10000);
