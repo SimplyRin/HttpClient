@@ -41,7 +41,7 @@ public class HttpClient {
 	@Setter
 	private String post;
 	@Setter
-	private List<String> headers;
+	private List<String> headers = new ArrayList<>();
 	@Setter
 	private Proxy proxy;
 
