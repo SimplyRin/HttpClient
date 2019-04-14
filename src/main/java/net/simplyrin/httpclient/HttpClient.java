@@ -46,7 +46,11 @@ public class HttpClient {
 	private Proxy proxy;
 
 	public HttpClient(String _url) throws Exception {
-		this.url = new URL(_url);
+		try {
+			this.url = new URL(_url);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void addHeader(String key, String value) {
